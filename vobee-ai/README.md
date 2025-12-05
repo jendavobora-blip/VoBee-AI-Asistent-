@@ -90,7 +90,7 @@ Celkem: 500 Q
 - 🔷 Gemini 3
 - 🟦 Microsoft 365 Pro
 - 🟣 Perplexity Pro
-- 🟢 Copilot Clude 4.5
+- 🟢 Copilot Claude 4.5
 - 🔶 DeepSeek
 - Claude
 - Text v UI: „Na vývoji a udržitelnosti se podílí 6 umělých inteligencí"
