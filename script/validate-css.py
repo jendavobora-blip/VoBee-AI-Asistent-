@@ -15,7 +15,7 @@ def validate_css(css_path):
     print(f"🔍 Validating CSS file: {css_path}")
     print("=" * 60)
     
-    with open(css_path, 'r') as f:
+    with open(css_path, 'r', encoding='utf-8') as f:
         content = f.read()
     
     issues = []
@@ -31,18 +31,25 @@ def validate_css(css_path):
         print(f"✅ Bracket balance: {open_braces} pairs")
     
     # Check 2: Count custom properties
-    custom_props = re.findall(r'--[\w-]+:', content)
+    # CSS custom properties can contain word chars, hyphens, underscores, and more
+    custom_props = re.findall(r'--[a-zA-Z0-9_-]+:', content)
     print(f"✅ CSS custom properties: {len(custom_props)}")
     
-    # Check 3: Check for var() usage
-    var_usage = re.findall(r'var\(--[\w-]+\)', content)
+    # Check 3: Check for var() usage (including fallback values)
+    var_usage = re.findall(r'var\(--[a-zA-Z0-9_-]+(?:,\s*[^)]+)?\)', content)
     print(f"✅ var() usages: {len(var_usage)}")
     
-    # Check 4: Check for deprecated properties
-    deprecated = ['filter: alpha', 'zoom:', 'behavior:', '-ms-filter']
-    for prop in deprecated:
-        if prop.lower() in content.lower():
-            issues.append(f"Deprecated property found: {prop}")
+    # Check 4: Check for deprecated properties using consistent patterns
+    deprecated_patterns = [
+        r'filter:\s*alpha\(',  # IE filter
+        r'\bzoom:\s*[^;]+;',   # IE zoom
+        r'behavior:\s*url',    # IE behavior
+        r'-ms-filter:\s*'      # IE MS filter
+    ]
+    for pattern in deprecated_patterns:
+        matches = re.findall(pattern, content, re.IGNORECASE)
+        if matches:
+            issues.append(f"Deprecated property found: {matches[0]}")
     
     if not issues:
         print("✅ No deprecated properties found")

@@ -12,4 +12,10 @@ To run:
 bun run dev
 ```
 
+To validate CSS:
+
+```bash
+python3 ../script/validate-css.py
+```
+
 This project was created using `bun init` in bun v1.2.23. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.

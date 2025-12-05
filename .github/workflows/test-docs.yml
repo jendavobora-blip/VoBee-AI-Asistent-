@@ -11,6 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Validate CSS
+        # Note: Script only uses Python standard library, no additional deps needed
         run: python3 script/validate-css.py
       - uses: oven-sh/setup-bun@v1
       - name: Install
