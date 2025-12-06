@@ -311,6 +311,25 @@ For issues or questions:
 - Open an issue on GitHub
 - Review the API server logs for error messages
 
-## Example FlutterFlow Project
+## Example Code
 
-A complete example FlutterFlow project integrating VoBee is available in the `flutterflow_example/` directory (coming soon).
+### Test Script
+
+A bash script to test all API endpoints is available:
+
+```bash
+./test_api.sh
+```
+
+This script tests all endpoints and displays the responses in a formatted way.
+
+### Flutter/Dart Integration
+
+A complete Flutter/Dart example showing how to integrate VoBee in your Flutter or FlutterFlow app is available in `example_flutter_integration.dart`. This includes:
+
+- Complete API client implementation
+- Request/response models
+- Example widget code
+- Error handling
+
+You can copy this code directly into your FlutterFlow Custom Code section or use it in any Flutter project.
