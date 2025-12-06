@@ -3,7 +3,7 @@ version: '3.8'
 services:
   vobee-api:
     build:
-      context: ../..
+      context: ../..  # Repository root
       dockerfile: examples/vobee_assistant/Dockerfile
     ports:
       - "3000:3000"

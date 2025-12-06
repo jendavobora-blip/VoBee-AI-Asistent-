@@ -4,11 +4,9 @@
 # Build stage
 FROM rust:1.91-bookworm as builder
 
-WORKDIR /app
-
-# Copy the entire workspace
-COPY ../../.. /workspace
+# Copy the entire workspace (build context should be the repository root)
 WORKDIR /workspace
+COPY . /workspace
 
 # Build the API binary
 RUN cargo build --release --bin vobee_api --manifest-path examples/vobee_assistant/Cargo.toml
