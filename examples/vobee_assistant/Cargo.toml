@@ -1,0 +1,20 @@
+[package]
+name = "vobee_assistant"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+gpui.workspace = true
+gpui-component.workspace = true
+gpui-component-assets.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dependencies.chrono]
+version = "0.4"
+features = ["serde"]
+
+[dependencies.rand]
+version = "0.8"
