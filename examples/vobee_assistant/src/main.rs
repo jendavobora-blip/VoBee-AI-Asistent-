@@ -1,5 +1,6 @@
 mod chatbot;
 mod response_patterns;
+mod api_server;
 
 use chatbot::{MessageSender, VoBeeChatbot};
 use gpui::*;
