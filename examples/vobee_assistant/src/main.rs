@@ -25,7 +25,7 @@ impl VoBeeApp {
         let _subscriptions = vec![cx.subscribe_in(&input_state, window, {
             let input_state = input_state.clone();
             move |this, _, ev: &InputEvent, window, cx| match ev {
-                InputEvent::PressEnter => {
+                InputEvent::PressEnter { .. } => {
                     let value = input_state.read(cx).value().trim().to_string();
                     if !value.is_empty() {
                         this.send_message(value, window, cx);
@@ -55,7 +55,7 @@ impl VoBeeApp {
         
         // Clear input
         self.input_state.update(cx, |state, cx| {
-            state.set_text("", cx);
+            state.set_value("", _window, cx);
         });
         
         cx.notify();
@@ -73,7 +73,7 @@ impl Render for VoBeeApp {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         v_flex()
             .size_full()
-            .bg(white())
+            .bg(gpui::white())
             .child(
                 // Header
                 h_flex()
@@ -106,7 +106,7 @@ impl Render for VoBeeApp {
                 // Messages area
                 div()
                     .flex_1()
-                    .overflow_y_scroll()
+                    .overflow_hidden()
                     .bg(rgb(0xf5f5f5))
                     .child(
                         v_flex()
@@ -115,31 +115,38 @@ impl Render for VoBeeApp {
                             .w_full()
                             .children(
                                 self.messages.iter().map(|(sender, text)| {
-                                    let (bg_color, text_color, justify) = match sender {
+                                    let (bg_color, text_color, align_end) = match sender {
                                         MessageSender::User => (
                                             rgb(0x2196f3),
-                                            white(),
-                                            JustifyContent::FlexEnd,
+                                            rgb(0xffffff),
+                                            true,
                                         ),
                                         MessageSender::Bot => (
                                             rgb(0xe0e0e0),
                                             rgb(0x212121),
-                                            JustifyContent::FlexStart,
+                                            false,
                                         ),
                                     };
 
-                                    h_flex()
-                                        .w_full()
-                                        .justify(justify)
-                                        .child(
-                                            div()
-                                                .max_w(px(600.0))
-                                                .p_3()
-                                                .rounded_lg()
-                                                .bg(bg_color)
-                                                .text_color(text_color)
-                                                .child(text.clone())
-                                        )
+                                    let msg = div()
+                                        .max_w(px(600.0))
+                                        .p_3()
+                                        .rounded_lg()
+                                        .bg(bg_color)
+                                        .text_color(text_color)
+                                        .child(text.clone());
+
+                                    if align_end {
+                                        h_flex()
+                                            .w_full()
+                                            .justify_end()
+                                            .child(msg)
+                                    } else {
+                                        h_flex()
+                                            .w_full()
+                                            .justify_start()
+                                            .child(msg)
+                                    }
                                 })
                             )
                     )
@@ -149,7 +156,7 @@ impl Render for VoBeeApp {
                 h_flex()
                     .p_4()
                     .gap_2()
-                    .bg(white())
+                    .bg(gpui::white())
                     .border_t_1()
                     .border_color(rgb(0xbdbdbd))
                     .child(
