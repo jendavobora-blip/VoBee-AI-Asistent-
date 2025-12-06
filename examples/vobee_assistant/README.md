@@ -9,6 +9,8 @@ A Rust desktop application version of the VoBee AI chatbot, built using the GPUI
 - 📝 **Conversation History** - Persistent chat history during the session
 - 🎨 **Modern UI** - Built with GPUI components for a native desktop experience
 - 🧠 **Learning Capability** - Logs unrecognized queries for future improvements
+- 🌐 **REST API** - FlutterFlow integration via REST API server
+- 🔌 **Cross-Platform Integration** - Easily integrate with Flutter and FlutterFlow apps
 
 ## Response Categories
 
@@ -22,9 +24,23 @@ A Rust desktop application version of the VoBee AI chatbot, built using the GPUI
 
 ## Running the Application
 
+### Desktop GUI Application
+
+Run the desktop application with GPUI interface:
+
 ```bash
 cargo run --example vobee_assistant
 ```
+
+### API Server for FlutterFlow Integration
+
+Run the REST API server for integration with FlutterFlow apps:
+
+```bash
+cargo run --bin vobee_api
+```
+
+The API server will start on `http://localhost:3000` by default. See [FLUTTERFLOW_INTEGRATION.md](FLUTTERFLOW_INTEGRATION.md) for detailed integration instructions.
 
 ## Architecture
 
@@ -33,6 +49,8 @@ cargo run --example vobee_assistant
 - **`chatbot.rs`** - Core chatbot logic, message handling, and conversation management
 - **`response_patterns.rs`** - Response templates and keyword matching system
 - **`main.rs`** - GPUI UI implementation and application entry point
+- **`api_server.rs`** - REST API server for FlutterFlow integration
+- **`api_main.rs`** - API server entry point
 
 ### Key Features
 

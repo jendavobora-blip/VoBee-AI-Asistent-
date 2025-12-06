@@ -4,6 +4,14 @@ version = "0.1.0"
 edition = "2024"
 publish = false
 
+[[bin]]
+name = "vobee_assistant"
+path = "src/main.rs"
+
+[[bin]]
+name = "vobee_api"
+path = "src/api_main.rs"
+
 [dependencies]
 gpui.workspace = true
 gpui-component.workspace = true
@@ -18,3 +26,14 @@ features = ["serde"]
 
 [dependencies.rand]
 version = "0.8"
+
+[dependencies.tokio]
+version = "1.40"
+features = ["full"]
+
+[dependencies.axum]
+version = "0.7"
+
+[dependencies.tower-http]
+version = "0.6"
+features = ["cors"]
