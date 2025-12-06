@@ -40,7 +40,12 @@ Run the REST API server for integration with FlutterFlow apps:
 cargo run --bin vobee_api
 ```
 
-The API server will start on `http://localhost:3000` by default. See [FLUTTERFLOW_INTEGRATION.md](FLUTTERFLOW_INTEGRATION.md) for detailed integration instructions.
+The API server will start on `http://localhost:3000` by default. 
+
+**Documentation:**
+- [Quick Start Guide](QUICKSTART.md) - Get started in minutes
+- [FlutterFlow Integration Guide](FLUTTERFLOW_INTEGRATION.md) - Detailed integration instructions
+- [Security Summary](SECURITY_SUMMARY.md) - Security considerations and best practices
 
 ## Architecture
 
