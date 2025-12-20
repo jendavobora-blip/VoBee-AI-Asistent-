@@ -18,3 +18,10 @@ features = ["serde"]
 
 [dependencies.rand]
 version = "0.8"
+
+[dependencies.rusqlite]
+version = "0.32"
+features = ["bundled"]
+
+[dependencies.dirs]
+version = "5.0"

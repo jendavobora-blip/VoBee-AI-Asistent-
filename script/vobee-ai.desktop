@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=VoBee AI
+Comment=Your Friendly AI Assistant
+Icon=vobee-ai
+Exec=vobee_assistant
+Terminal=false
+Categories=Utility;Chat;Education;
+Keywords=ai;assistant;chatbot;vobee;
+StartupNotify=true
