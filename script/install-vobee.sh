@@ -50,7 +50,12 @@ if [ -f "script/vobee-ai.desktop" ]; then
     
     # Update desktop database if available
     if command -v update-desktop-database &> /dev/null; then
-        update-desktop-database "$APPLICATIONS_DIR" 2>/dev/null || true
+        echo "Updating desktop database..."
+        if update-desktop-database "$APPLICATIONS_DIR" 2>&1; then
+            echo -e "${GREEN}✓ Desktop database updated${NC}"
+        else
+            echo -e "${YELLOW}⚠ Desktop database update failed (non-critical)${NC}"
+        fi
     fi
     echo -e "${GREEN}✓ Desktop entry installed${NC}"
 fi

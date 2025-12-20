@@ -110,7 +110,10 @@ impl ConversationStorage {
                 let timestamp_str: String = row.get(2)?;
                 let timestamp = DateTime::parse_from_rfc3339(&timestamp_str)
                     .map(|dt| dt.with_timezone(&Utc))
-                    .unwrap_or_else(|_| Utc::now());
+                    .unwrap_or_else(|e| {
+                        eprintln!("Warning: Failed to parse timestamp '{}': {}", timestamp_str, e);
+                        Utc::now()
+                    });
 
                 Ok(Message {
                     sender,
@@ -138,7 +141,10 @@ impl ConversationStorage {
                 let updated_str: String = row.get(2)?;
                 let updated = DateTime::parse_from_rfc3339(&updated_str)
                     .map(|dt| dt.with_timezone(&Utc))
-                    .unwrap_or_else(|_| Utc::now());
+                    .unwrap_or_else(|e| {
+                        eprintln!("Warning: Failed to parse timestamp '{}': {}", updated_str, e);
+                        Utc::now()
+                    });
 
                 Ok((id, title, updated))
             })?

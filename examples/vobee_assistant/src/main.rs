@@ -4,6 +4,7 @@ mod settings;
 mod storage;
 
 use chatbot::{MessageSender, VoBeeChatbot};
+use chrono::Utc;
 use gpui::*;
 use gpui_component::*;
 use gpui_component::button::*;
@@ -98,19 +99,28 @@ impl VoBeeApp {
         // Save to storage if enabled
         if self.settings.save_history {
             if let (Some(storage), Some(conv_id)) = (&self.storage, self.current_conversation_id) {
+                // Use consistent timestamp for related messages
+                let timestamp = Utc::now();
+                
                 // Save both user and bot messages
                 let user_msg = crate::chatbot::Message {
                     sender: MessageSender::User,
                     text: input,
-                    timestamp: chrono::Utc::now(),
+                    timestamp,
                 };
                 let bot_msg = crate::chatbot::Message {
                     sender: MessageSender::Bot,
                     text: response,
-                    timestamp: chrono::Utc::now(),
+                    timestamp,
                 };
-                let _ = storage.save_message(conv_id, &user_msg);
-                let _ = storage.save_message(conv_id, &bot_msg);
+                
+                // Log errors if saving fails
+                if let Err(e) = storage.save_message(conv_id, &user_msg) {
+                    eprintln!("Failed to save user message: {}", e);
+                }
+                if let Err(e) = storage.save_message(conv_id, &bot_msg) {
+                    eprintln!("Failed to save bot message: {}", e);
+                }
             }
         }
         
@@ -150,21 +160,31 @@ impl VoBeeApp {
                 ExportFormat::Markdown => storage.export_conversation_markdown(conv_id),
             };
             
-            if let Ok(content) = result {
-                let filename = format!(
-                    "vobee_conversation_{}.{}",
-                    chrono::Utc::now().format("%Y%m%d_%H%M%S"),
-                    match format {
-                        ExportFormat::Json => "json",
-                        ExportFormat::Markdown => "md",
+            match result {
+                Ok(content) => {
+                    let filename = format!(
+                        "vobee_conversation_{}.{}",
+                        Utc::now().format("%Y%m%d_%H%M%S"),
+                        match format {
+                            ExportFormat::Json => "json",
+                            ExportFormat::Markdown => "md",
+                        }
+                    );
+                    
+                    if let Some(downloads_dir) = dirs::download_dir() {
+                        let path = downloads_dir.join(&filename);
+                        match std::fs::write(&path, content) {
+                            Ok(_) => println!("✓ Conversation exported to: {:?}", path),
+                            Err(e) => eprintln!("✗ Failed to write export file: {}", e),
+                        }
+                    } else {
+                        eprintln!("✗ Could not find Downloads directory");
                     }
-                );
-                
-                if let Some(downloads_dir) = dirs::download_dir() {
-                    let path = downloads_dir.join(filename);
-                    let _ = std::fs::write(&path, content);
                 }
+                Err(e) => eprintln!("✗ Failed to export conversation: {}", e),
             }
+        } else {
+            eprintln!("✗ No active conversation to export");
         }
     }
 }

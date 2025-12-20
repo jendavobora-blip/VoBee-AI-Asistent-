@@ -144,7 +144,13 @@ EOF
 echo -e "${GREEN}✓ README created${NC}"
 
 # Create version info
-VERSION=$(cargo metadata --format-version 1 --no-deps | grep -o '"version":"[^"]*"' | head -1 | cut -d'"' -f4)
+# Try to get version, fallback to 0.1.0 if extraction fails
+if command -v jq &> /dev/null; then
+    VERSION=$(cargo metadata --format-version 1 --no-deps 2>/dev/null | jq -r '.packages[0].version' 2>/dev/null || echo "0.1.0")
+else
+    # Fallback method without jq
+    VERSION=$(cargo metadata --format-version 1 --no-deps 2>/dev/null | grep -o '"version":"[^"]*"' | head -1 | cut -d'"' -f4 || echo "0.1.0")
+fi
 echo "$VERSION" > "$DIST_DIR/VERSION.txt"
 echo -e "${GREEN}✓ Version file created (v${VERSION})${NC}"
 
