@@ -84,6 +84,7 @@ impl VoBeeChatbot {
             });
     }
 
+    #[allow(dead_code)]
     pub fn get_conversation_history(&self) -> &[Message] {
         &self.conversation_history
     }
@@ -92,6 +93,7 @@ impl VoBeeChatbot {
         self.conversation_history.clear();
     }
 
+    #[allow(dead_code)]
     pub fn get_unrecognized_queries(&self) -> Vec<&UnrecognizedQuery> {
         let mut queries: Vec<&UnrecognizedQuery> = self.unrecognized_queries.values().collect();
         queries.sort_by(|a, b| b.count.cmp(&a.count));
