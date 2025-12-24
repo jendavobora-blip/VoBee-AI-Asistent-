@@ -1,5 +1,6 @@
 mod chatbot;
 mod response_patterns;
+mod storage;  // Future: Storage and persistence layer
 
 use chatbot::{MessageSender, VoBeeChatbot};
 use gpui::*;
@@ -19,19 +20,15 @@ impl VoBeeApp {
     fn new(window: &mut Window, cx: &mut Context<Self>) -> Self {
         let input_state = cx.new(|cx| InputState::new(window, cx).placeholder("Type your message..."));
         
-        let mut messages = Vec::new();
-        messages.push((MessageSender::Bot, VoBeeChatbot::welcome_message()));
+        let messages = vec![(MessageSender::Bot, VoBeeChatbot::welcome_message())];
         
         let _subscriptions = vec![cx.subscribe_in(&input_state, window, {
             let input_state = input_state.clone();
-            move |this, _, ev: &InputEvent, window, cx| match ev {
-                InputEvent::PressEnter { .. } => {
-                    let value = input_state.read(cx).value().trim().to_string();
-                    if !value.is_empty() {
-                        this.send_message(value, window, cx);
-                    }
+            move |this, _, ev: &InputEvent, window, cx| if let InputEvent::PressEnter { .. } = ev {
+                let value = input_state.read(cx).value().trim().to_string();
+                if !value.is_empty() {
+                    this.send_message(value, window, cx);
                 }
-                _ => {}
             }
         })];
         
