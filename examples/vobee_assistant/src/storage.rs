@@ -7,13 +7,11 @@ use serde::{Deserialize, Serialize};
 use crate::chatbot::{Message, UnrecognizedQuery};
 
 /// Configuration for storage backend
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[derive(Default)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct StorageConfig {
     pub enable_persistence: bool,
     pub database_path: Option<String>,
 }
-
 
 /// Storage interface for conversation persistence
 /// 
