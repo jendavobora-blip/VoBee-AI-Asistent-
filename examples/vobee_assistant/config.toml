@@ -1,0 +1,52 @@
+# VoBee AI Assistant Configuration
+
+[assistant]
+name = "VoBee"
+version = "0.1.0"
+
+[learning]
+# Enable learning from user interactions
+enable_learning = true
+# Track unrecognized queries for improvement
+track_unrecognized = true
+
+[storage]
+# Enable persistent storage (future: SQLite)
+enable_persistence = false
+# Storage path (future implementation)
+# database_path = "./vobee_data.db"
+
+[ui]
+# Window dimensions
+window_width = 800
+window_height = 600
+
+# Future AI integration configuration (placeholders)
+[ai_models]
+# primary = "local"
+# fallback = "local"
+# enable_multi_ai = false
+
+# [ai_models.claude]
+# api_key = ""
+# enabled = false
+
+# [ai_models.chatgpt]
+# api_key = ""
+# enabled = false
+
+# [ai_models.deepseek]
+# api_key = ""
+# enabled = false
+
+# [ai_models.gemini]
+# api_key = ""
+# enabled = false
+
+# [ai_models.perplexity]
+# api_key = ""
+# enabled = false
+
+# [ai_models.ollama]
+# endpoint = "http://localhost:11434"
+# enabled = false

@@ -121,11 +121,10 @@ impl ResponsePatterns {
         // Check each category for keyword matches
         for (category, kwords) in &self.keywords {
             for keyword in kwords {
-                if input_lower.contains(keyword) {
-                    if let Some(responses) = self.patterns.get(category) {
+                if input_lower.contains(keyword)
+                    && let Some(responses) = self.patterns.get(category) {
                         return self.random_response(responses);
                     }
-                }
             }
         }
 

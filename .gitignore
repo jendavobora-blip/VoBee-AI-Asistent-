@@ -6,3 +6,9 @@
 index.scip
 *.log
 node_modules/
+
+# Environment and secrets
+.env
+*.env.local
+**/config.local.toml
+**/*_secrets.toml
