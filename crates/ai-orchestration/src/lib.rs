@@ -17,5 +17,5 @@ pub mod orchestrator;
 
 pub use error::{AiError, AiResult};
 pub use orchestrator::AiOrchestrator;
-pub use providers::{AiProvider, AiRequest, AiResponse};
+pub use providers::{AiProvider, AiRequest, AiResponse, TaskType};
 pub use config::AiConfig;
